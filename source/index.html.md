@@ -2,14 +2,9 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+  - http
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
   - errors
@@ -19,221 +14,261 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Rover API! You can use our API to access Rover API endpoints, which can get information on various data in our database.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in JavaScript! You can view code examples in the dark area to the right.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+# Posts API
 
-# Authentication
+## Get all posts
 
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
+> Response JSON structure:
 
 ```json
 [
   {
     "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+    "title": "Happy 2019",
+    "featured_image": "https://rover.jetek.com.au/images/1.png",
+    "content": "<p>We casually associate traveling to escaping, and during these last years of traveling a lot I had trouble acknowledging how much of it was actually about running away</p>",
+    "excerpt": "To put it kindly, 2018 was kind of mixed bag for me......"
+    "author": {
+      "id": 1,
+      "name": "Isabella Brown",
+      "avatar": "https://rover.jetek.com.au/images/guides/1.png"
+    }
+    "city": {
+      "id": 1,
+      "name": "Sydney",
+      "country": "Australia"
+    }
+    "category": {
+      "id": 1,
+      "name": "Food"
+    }
+    "tags": [
+       {
+         "id": 1, 
+         "name": "Food"
+       },
+       {
+         "id": 2, 
+         "name": "Australia"
+       }
+    ]
+    "publish_date": 'JANUARY 6, 2019'
+    "publish_date_differ": 'Two weeks ago'
+    "is_top": 1
+    "is_front": 1
+    "view_count": 98780
   },
   {
     "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "title": "16 days in Beijing, China",
+    "featured_image": "https://rover.jetek.com.au/images/2.png",
+    "content": "<p>We casually associate traveling to escaping, and during these last years of traveling a lot I had trouble acknowledging how much of it was actually about running away</p>",
+    "excerpt": "The truth is, Beijing is a trip in itself......"
+    "author": {
+      "id": 2,
+      "name": "Emily Wilson",
+      "avatar": "https://rover.jetek.com.au/images/guides/2.png"
+    }
+    "city": {
+      "id": 6,
+      "name": "Beijing",
+      "country": "China"
+    }
+    "category": {
+      "id": 1,
+      "name": "Culture"
+    }
+    "tags": [
+       {
+         "id": 1, 
+         "name": "Culture"
+       },
+       {
+         "id": 2, 
+         "name": "China"
+       }
+    ]
+    "publish_date": 'JANUARY 12, 2019'
+    "publish_date_differ": 'Three days ago'
+    "is_top": 1
+    "is_front": 1
+    "view_count": 999999
   }
 ]
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all posts.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET https://rover.jetek.com.au/api/v1/posts`
 
 ### Query Parameters
 
-Parameter | Default | Description
+Parameter | Type | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+city | int | If set to 0, the result will also include all cities.
+limit | int | result count.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+<aside class="notice">
+Remember — limit is required!
 </aside>
 
-## Get a Specific Kitten
+## Get top posts
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+> Response JSON structure:
 
 ```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
+[
+  {
+    "id": 1,
+    "title": "Happy 2019",
+    "featured_image": "https://rover.jetek.com.au/images/1.png",
+    "content": "<p>We casually associate traveling to escaping, and during these last years of traveling a lot I had trouble acknowledging how much of it was actually about running away</p>",
+    "excerpt": "To put it kindly, 2018 was kind of mixed bag for me......"
+    "author": {
+      "id": 1,
+      "name": "Isabella Brown",
+      "avatar": "https://rover.jetek.com.au/images/guides/1.png"
+    }
+    "city": {
+      "id": 1,
+      "name": "Sydney",
+      "country": "Australia"
+    }
+    "category": {
+      "id": 1,
+      "name": "Food"
+    }
+    "tags": [
+       {
+         "id": 1, 
+         "name": "Food"
+       },
+       {
+         "id": 2, 
+         "name": "Australia"
+       }
+    ]
+    "publish_date": 'JANUARY 6, 2019'
+    "publish_date_differ": 'Two weeks ago'
+    "is_top": 1
+    "is_front": 1
+    "view_count": 98780
+  },
+  {
+    "id": 2,
+    "title": "16 days in Beijing, China",
+    "featured_image": "https://rover.jetek.com.au/images/2.png",
+    "content": "<p>We casually associate traveling to escaping, and during these last years of traveling a lot I had trouble acknowledging how much of it was actually about running away</p>",
+    "excerpt": "The truth is, Beijing is a trip in itself......"
+    "author": {
+      "id": 2,
+      "name": "Emily Wilson",
+      "avatar": "https://rover.jetek.com.au/images/guides/2.png"
+    }
+    "city": {
+      "id": 6,
+      "name": "Beijing",
+      "country": "China"
+    }
+    "category": {
+      "id": 1,
+      "name": "Culture"
+    }
+    "tags": [
+       {
+         "id": 1, 
+         "name": "Culture"
+       },
+       {
+         "id": 2, 
+         "name": "China"
+       }
+    ]
+    "publish_date": 'JANUARY 12, 2019'
+    "publish_date_differ": 'Three days ago'
+    "is_top": 1
+    "is_front": 1
+    "view_count": 999999
+  }
+]
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+This endpoint retrieves top posts.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET https://rover.jetek.com.au/api/v1/posts`
+
+### Query Parameters
+
+Parameter | Type | Description
+--------- | ------- | -----------
+city | int | If set to 0, the result will also include all cities.
+top | int | result count.
+
+<aside class="notice">
+Remember — top is required!
+Empty dataset will return if no data available.
+</aside>
+
+## Get a specific post
+
+> Response JSON structure:
+
+```json
+{
+    "id": 2,
+    "title": "16 days in Beijing, China",
+    "featured_image": "https://rover.jetek.com.au/images/2.png",
+    "content": "<p>We casually associate traveling to escaping, and during these last years of traveling a lot I had trouble acknowledging how much of it was actually about running away</p>",
+    "excerpt": "The truth is, Beijing is a trip in itself......"
+    "author": {
+      "id": 2,
+      "name": "Emily Wilson",
+      "avatar": "https://rover.jetek.com.au/images/guides/2.png"
+    }
+    "city": {
+      "id": 6,
+      "name": "Beijing",
+      "country": "China"
+    }
+    "category": {
+      "id": 1,
+      "name": "Culture"
+    }
+    "tags": [
+       {
+         "id": 1, 
+         "name": "Culture"
+       },
+       {
+         "id": 2, 
+         "name": "China"
+       }
+    ]
+    "publish_date": 'JANUARY 12, 2019'
+    "publish_date_differ": 'Three days ago'
+    "is_top": 1
+    "is_front": 1
+    "view_count": 999999
+}
+```
+
+This endpoint retrieves a specific post.
+
+### HTTP Request
+
+`GET https://rover.jetek.com.au/api/v1/posts/<ID>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+ID | The ID of the post to retrieve
 
